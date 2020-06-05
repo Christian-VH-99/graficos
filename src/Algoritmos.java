@@ -128,7 +128,7 @@ public class Algoritmos extends JFrame implements Runnable {
 	public void paint(Graphics g) {
 		super.paint(g);
 		int x;
-		int yInicial;
+		int y;
 		int hueco = 1;
 		int ancho;
 		if (cargar == true) {
@@ -148,16 +148,17 @@ public class Algoritmos extends JFrame implements Runnable {
 				vector.cargarVectorInverso();
 			}
 			x = 10;
-			yInicial = 600;
+			y = 35;
+			int alto = 600;
 			hueco = 1;
 			ancho = (1024 - (vector.getCantidadElementos() * hueco)) / vector.getCantidadElementos();
 
 			for (int i = 0; i < vector.getCantidadElementos(); i++) {
 				g.setColor(Color.BLACK);
 				g.fillRect(
-						x, yInicial
-								- (int) ((float) yInicial * (float) vector.getVector()[i] / (float) vector.getMaximo()),
-						ancho, (int) ((float) yInicial * (float) vector.getVector()[i] / (float) vector.getMaximo()));
+						x, y+alto
+								- (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()),
+						ancho, (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()));
 				x += hueco + ancho;
 
 			}
@@ -166,7 +167,7 @@ public class Algoritmos extends JFrame implements Runnable {
 		if (ordenar == true) {
 			System.out.println("pepe");
 			x = 10;
-			yInicial = 600;
+			y = 600;
 			hueco = 1;
 			ancho = (1024 - (vector.getCantidadElementos() * hueco)) / vector.getCantidadElementos();
 
@@ -181,7 +182,7 @@ public class Algoritmos extends JFrame implements Runnable {
 			
 			for (int i = 0; i < vector.getCantidadElementos(); i++) {
 				g.setColor(Color.MAGENTA);
-				g.fillRect(x, yInicial - ((550 / vector.getCantidadElementos()) * vector.getVector()[i]), ancho,
+				g.fillRect(x, y - ((550 / vector.getCantidadElementos()) * vector.getVector()[i]), ancho,
 						(550 / vector.getCantidadElementos()) * vector.getVector()[i]);
 				x += hueco + ancho;
 			}
