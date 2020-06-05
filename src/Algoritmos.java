@@ -127,10 +127,12 @@ public class Algoritmos extends JFrame implements Runnable {
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		int x;
-		int y;
+		int x = 10;
+		int y = 35;
+		int alto = 600;
 		int hueco = 1;
 		int ancho;
+
 		if (cargar == true) {
 			int elementos = Integer.parseInt(cantElementosVector.getText());
 			vector = new Vector(elementos);
@@ -147,28 +149,22 @@ public class Algoritmos extends JFrame implements Runnable {
 			} else if (tipoCarga.equals("Invertido")) {
 				vector.cargarVectorInverso();
 			}
-			x = 10;
-			y = 35;
-			int alto = 600;
-			hueco = 1;
+
 			ancho = (1024 - (vector.getCantidadElementos() * hueco)) / vector.getCantidadElementos();
 
 			for (int i = 0; i < vector.getCantidadElementos(); i++) {
 				g.setColor(Color.BLACK);
-				g.fillRect(
-						x, y+alto
-								- (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()),
+				g.fillRect(x,
+						y + alto - (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()),
 						ancho, (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()));
 				x += hueco + ancho;
 
 			}
 		}
-		
+
 		if (ordenar == true) {
 			System.out.println("pepe");
-			x = 10;
-			y = 600;
-			hueco = 1;
+
 			ancho = (1024 - (vector.getCantidadElementos() * hueco)) / vector.getCantidadElementos();
 
 			Ordenadora<Integer> ordenadora = new Ordenadora<Integer>();
@@ -179,11 +175,12 @@ public class Algoritmos extends JFrame implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			for (int i = 0; i < vector.getCantidadElementos(); i++) {
 				g.setColor(Color.MAGENTA);
-				g.fillRect(x, y - ((550 / vector.getCantidadElementos()) * vector.getVector()[i]), ancho,
-						(550 / vector.getCantidadElementos()) * vector.getVector()[i]);
+				g.fillRect(x,
+						y + alto - (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()),
+						ancho, (int) ((float) alto * (float) vector.getVector()[i] / (float) vector.getMaximo()));
 				x += hueco + ancho;
 			}
 		}
