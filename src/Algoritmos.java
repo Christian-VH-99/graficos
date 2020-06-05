@@ -23,10 +23,12 @@ public class Algoritmos extends JFrame implements Runnable {
 	private JTextField textField;
 	private JTextField txtIngreseElAlgoritmo;
 	private JTextField cantElementosVector;
-//	private JComboBox ordenVectorBox;
 	private JComboBox algoritmoBox;
+	private JTextField tipoOrden;
 
-	boolean bandera = false;
+	private Vector vector;
+	boolean cargar = false;
+	boolean ordenar = false;
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +54,7 @@ public class Algoritmos extends JFrame implements Runnable {
 	}
 	private void inicializar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 518);
+		setBounds(100, 100, 1024, 768);
 		Panel = new JPanel();
 		Panel.setBackground(Color.LIGHT_GRAY);
 		Panel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,55 +63,57 @@ public class Algoritmos extends JFrame implements Runnable {
 		
 		JLabel tipoAgoritmo = new JLabel("Seleccione Algoritmo");
 		tipoAgoritmo.setFont(new Font("Arial", Font.BOLD, 13));
-		tipoAgoritmo.setBounds(10, 392, 168, 24);
+		tipoAgoritmo.setBounds(10, 645, 168, 24);
 		Panel.add(tipoAgoritmo);
 		
 		JComboBox<String> algoritmoBox = new JComboBox<String>();
 		algoritmoBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		algoritmoBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Seleccion", "Burbujeo", "Insercion"}));
-		algoritmoBox.setBounds(243, 394, 102, 20);
+		algoritmoBox.setBounds(243, 647, 102, 20);
 		Panel.add(algoritmoBox);
 		
 		JLabel lblNewLabel = new JLabel("Selecciones orden de entrada");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 13));
-		lblNewLabel.setBounds(10, 427, 205, 14);
+		lblNewLabel.setBounds(10, 680, 205, 14);
 		Panel.add(lblNewLabel);
 		
-		JComboBox ordenVectorBox = new JComboBox();
-		ordenVectorBox.setModel(new DefaultComboBoxModel(new String[] {"Ordenado", "Semi-ordenado", "Aleatorio", "Semi-inverso", "Inverso"}));
-//		ordenVectorBox.setBounds(243, 425, 124, 20);
-//		ordenVectorBox.addItem("Ordenado");
-//		ordenVectorBox.addItem("Semi-ordenado");
-//		ordenVectorBox.addItem("Aleatorio");
-//		ordenVectorBox.addItem("Semi-invertido");
-//		ordenVectorBox.addItem("Invertido");
-		Panel.add(ordenVectorBox);
-		ordenVectorBox.addActionListener(ordenVectorBox);
 		
 		JButton cargarButton = new JButton("Cargar");
 		cargarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				bandera = true;
+				cargar = true;
 				repaint();
 			}
 		});
-		cargarButton.setBounds(417, 383, 116, 45);
+		cargarButton.setBounds(417, 636, 116, 45);
 		Panel.add(cargarButton);
 		
 		JButton ordenarButton = new JButton("Ordenar");
-		ordenarButton.setBounds(586, 383, 116, 45);
+		ordenarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cargar = false;
+				ordenar = true;
+				repaint();
+			}
+		});
+		ordenarButton.setBounds(586, 636, 116, 45);
 		Panel.add(ordenarButton);
 		
 		JLabel cantidadElementos = new JLabel("Ingrese tama\u00F1o del vector");
 		cantidadElementos.setFont(new Font("Arial", Font.BOLD, 13));
 		cantidadElementos.setHorizontalAlignment(SwingConstants.LEFT);
-		cantidadElementos.setBounds(10, 357, 168, 24);
+		cantidadElementos.setBounds(10, 610, 168, 24);
 		Panel.add(cantidadElementos);
 		
 		cantElementosVector = new JTextField();
-		cantElementosVector.setBounds(243, 360, 86, 20);
+		cantElementosVector.setBounds(243, 613, 86, 20);
 		Panel.add(cantElementosVector);
 		cantElementosVector.setColumns(10);
+		
+		tipoOrden = new JTextField();
+		tipoOrden.setBounds(243, 678, 102, 20);
+		Panel.add(tipoOrden);
+		tipoOrden.setColumns(10);
 		
 	}
 
@@ -121,39 +125,55 @@ public class Algoritmos extends JFrame implements Runnable {
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(bandera == true) {
+		int x;
+		int yInicial;
+		int hueco = 1;
+		int ancho;
+		if(cargar == true) {
 			int elementos = Integer.parseInt(cantElementosVector.getText());
-			Vector vector = new Vector(elementos);
+			vector = new Vector(elementos);
 			vector.cargarVectorAleatorio();
-			String pepe = (String)algoritmoBox.getName();
-			System.out.println(pepe);
-//			if(ordenVectorBox.getSelectedItem() != null) {
-//				String tipoCarga = (String) ordenVectorBox.getSelectedItem();
-//				System.out.println(tipoCarga);				
-//			}
-//			if(tipoCarga.equals("Ordenado")) {
-//				vector.cargarVectorOrdenado();
-//			}else if(tipoCarga.equals("Semi-ordenado")) {
-//				vector.cargarVectorSemiordenado();
-//			}else if(tipoCarga.equals("Aleatorio")) {
-//				vector.cargarVectorAleatorio();
-//			}else if(tipoCarga.equals("Semi-invertido")) {
-//				vector.cargarVectorSemiInverso();
-//			}else if(tipoCarga.equals("Invertido")) {
-//				vector.cargarVectorInverso();	
-//			}
-//			int j = 0;
-//			int xInicial = 5;
-//			int yInicial = 0;
+			String tipoCarga = tipoOrden.getText();
+			if(tipoCarga.equals("Ordenado")) {
+				vector.cargarVectorOrdenado();
+			}else if(tipoCarga.equals("Semi-ordenado")) {
+				vector.cargarVectorSemiordenado();
+			}else if(tipoCarga.equals("Aleatorio")) {
+				vector.cargarVectorAleatorio();
+			}else if(tipoCarga.equals("Semi-invertido")) {
+				vector.cargarVectorSemiInverso();
+			}else if(tipoCarga.equals("Invertido")) {
+				vector.cargarVectorInverso();	
+			}
+			x = 10;
+			yInicial = 600;
 //			int yAltura = 370;
-//			int ancho = 30;
-//			int hueco = 10;
-//			int mayot = vector.getCantidadElementos();
-//			for(int i=0; i < vector.getCantidadElementos(); i++) {
-//				g.setColor(Color.BLACK);
-//				g.fillRect(xInicial,yInicial + yAltura - 10,ancho,i);
-//				xInicial +=hueco;
-//			}
+			hueco = 1;
+			ancho = (1024-(vector.getCantidadElementos()*hueco))/vector.getCantidadElementos();
+//			
+			for(int i=0; i < vector.getCantidadElementos(); i++) {
+				g.setColor(Color.BLACK);
+				g.fillRect(x,yInicial - ((550/vector.getCantidadElementos())*vector.getVector()[i]),ancho,(550/vector.getCantidadElementos())*vector.getVector()[i]);
+				System.out.println("paso "+ vector.getVector()[i]  );
+				x +=hueco+ ancho;
+			
+			}
 		}
+		if(ordenar == true) {
+			System.out.println("pepe" );
+			x = 10;
+			yInicial = 600;
+//			int yAltura = 370;
+			hueco = 1;
+			ancho = (1024-(vector.getCantidadElementos()*hueco))/vector.getCantidadElementos();
+			
+			for(int i=0; i < vector.getCantidadElementos(); i++) {
+				g.setColor(Color.MAGENTA);
+				g.fillRect(x,yInicial - ((550/vector.getCantidadElementos())*vector.getVector()[i]),ancho,(550/vector.getCantidadElementos())*vector.getVector()[i]);
+				x +=hueco+ ancho;
+			}
+		}
+			
+	
 	}
 }

@@ -2,13 +2,7 @@
 public class Vector {
 	private Integer[] vector;
 	private int cantidadElementos;
-	private int tiempoEspera;
-
-	public Vector(int cantidadElementos, int tiempoEspera) {
-		this.vector = new Integer[cantidadElementos];
-		this.cantidadElementos = cantidadElementos;
-		this.tiempoEspera = tiempoEspera;
-	}
+	private int maximo;
 
 	public Vector(int cantidadElementos) {
 		this.vector = new Integer[cantidadElementos];
@@ -18,6 +12,7 @@ public class Vector {
 		for (int i = 0; i < this.cantidadElementos; i++) {
 			vector[i] = i + 1;
 		}
+		this.maximo=this.cantidadElementos;
 	}
 
 	public void cargarVectorSemiordenado() {
@@ -27,12 +22,19 @@ public class Vector {
 			} else {
 				vector[i] = i + 1;
 			}
+			if(this.vector[i]>this.maximo) {
+                this.maximo=this.vector[i];
+            }
 		}
+		
 	}
 
 	public void cargarVectorAleatorio() {
 		for (int i = 0; i < this.cantidadElementos; i++) {
 			vector[i] = (int) (Math.random() * (cantidadElementos + 10));
+			if(this.vector[i]>this.maximo) {
+                this.maximo=this.vector[i];
+            }
 		}
 	}
 
@@ -43,6 +45,9 @@ public class Vector {
 			} else {
 				this.vector[this.cantidadElementos - i] = i;
 			}
+			if(this.vector[i]>this.maximo) {
+                this.maximo=this.vector[i];
+            }
 		}
 	}
 
@@ -50,6 +55,7 @@ public class Vector {
 		for (int i = 1; i <= this.cantidadElementos; i++) {
 			this.vector[this.cantidadElementos - i] = i;
 		}
+		this.maximo = this.cantidadElementos;
 	}
 
 	public Integer[] getVector() {
@@ -60,8 +66,8 @@ public class Vector {
 		this.vector = vector;
 	}
 
-	public int getTiempoEspera() {
-		return tiempoEspera;
+	public int getMaximo() {
+		return maximo;
 	}
 	public int getCantidadElementos() {
 		return cantidadElementos;
